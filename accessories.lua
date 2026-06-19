@@ -132,7 +132,7 @@ Title.Name = "Title"
 Title.Size = UDim2.new(1, -50, 1, 0)
 Title.Position = UDim2.new(0, 15, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "ZYNX ENGINE v2.0 // PRIVATE"
+Title.Text = "ZYNX ENGINE v2.0 // TK: tizi8776 follow me"
 Title.TextColor3 = Color3.fromRGB(0, 180, 255)
 Title.TextSize = 13
 Title.Font = Enum.Font.GothamBold
@@ -175,6 +175,7 @@ local Layout = Instance.new("UIListLayout")
 Layout.Padding = UDim.new(0, 6)
 Layout.Parent = ScrollFrame
 
+-- Movimos y achicamos la InputBox para que entre el nuevo botón de link
 local InputBox = Instance.new("TextBox")
 InputBox.Size = UDim2.new(0, 295, 0, 36)
 InputBox.Position = UDim2.new(0, 15, 1, -46)
@@ -191,12 +192,13 @@ local InputCorner = Instance.new("UICorner")
 InputCorner.CornerRadius = UDim.new(0, 6)
 InputCorner.Parent = InputBox
 
+-- Botón de Enlace / Discord (Nuevo)
 local LinkBtn = Instance.new("TextButton")
 LinkBtn.Name = "LinkBtn"
 LinkBtn.Size = UDim2.new(0, 40, 0, 36)
 LinkBtn.Position = UDim2.new(0, 320, 1, -46)
 LinkBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-LinkBtn.Text = "🔗" 
+LinkBtn.Text = "🔗" -- Usamos emoji clásico que Roblox lee perfecto
 LinkBtn.Font = Enum.Font.GothamBold
 LinkBtn.TextColor3 = Color3.fromRGB(0, 180, 255)
 LinkBtn.TextSize = 14
@@ -285,7 +287,6 @@ local function actualizarListaVisual()
             TweenService:Create(BorrarBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(40, 30, 35), TextColor3 = Color3.fromRGB(255, 80, 80)}):Play()
         end)
         
-        -- Evento corregido para borrar accesorios individuales
         BorrarBtn.MouseButton1Click:Connect(function()
             local char = localPlayer.Character
             if char then
@@ -326,23 +327,11 @@ AddBtn.MouseLeave:Connect(function()
     TweenService:Create(AddBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 130, 230)}):Play()
 end)
 
--- ÚNICO EVENTO DE LINK ORGANIZADO (Soporta redirección Delta directa + Copiado de respaldo)
+-- Acción del Botón de Link (Copia al portapapeles)
 LinkBtn.MouseButton1Click:Connect(function()
-    local miEnlace = "https://www.tiktok.com/@tizi8776"
+    local miEnlace = "https://www.tiktok.com/@tizi8776" -- CAMBIÁ ESTO por tu link real
     
-    local requestFunc = syn and syn.request or http_request or request
-    
-    if requestFunc then
-        pcall(function()
-            requestFunc({
-                Url = miEnlace,
-                Method = "GET"
-            })
-        end)
-        LinkBtn.Text = "🚀"
-        task.wait(1.5)
-        LinkBtn.Text = "🔗"
-    elseif setclipboard then
+    if setclipboard then
         setclipboard(miEnlace)
         LinkBtn.Text = "✅"
         task.wait(1.5)
