@@ -273,7 +273,7 @@ local function actualizarListaVisual()
         IdLabel.TextXAlignment = Enum.TextXAlignment.Left
         IdLabel.Parent = Fila
         
-       local BorrarBtn = Instance.new("TextButton")
+        local BorrarBtn = Instance.new("TextButton")
         BorrarBtn.Name = "BorrarBtn"
         BorrarBtn.Size = UDim2.new(0, 32, 0, 24)
         BorrarBtn.Position = UDim2.new(1, -40, 0, 5)
