@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 local localPlayer = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService") -- Servicio para detectar teclas
 
 local ARCHIVO_GUARDADO = "MisAccesoriosForzados.json"
 local ACCESORIOS_IDS = {}
@@ -266,3 +267,21 @@ end)
 
 actualizarListaVisual()
 aplicarTodo()
+
+--- ========================================== ---
+--- SCRIPT PARA OCULTAR EL MENÚ CON CTRL       ---
+--- ========================================== ---
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    -- Si estás escribiendo texto en el menú o en el chat, ignora la tecla para no cerrarlo molestamente
+    if gameProcessed then return end 
+    
+    -- Detecta si presionas la tecla Control Izquierdo (LeftControl)
+    if input.KeyCode == Enum.KeyCode.LeftControl then
+        -- Evita que se cierre si estás manteniendo pulsado otra tecla al mismo tiempo (como Ctrl+C o Ctrl+V)
+        if UserInputService:IsKeyDown(Enum.KeyCode.C) or UserInputService:IsKeyDown(Enum.KeyCode.V) then 
+            return 
+        end
+        
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
