@@ -1,7 +1,3 @@
--- ====================================================================
---   ZYNX ENGINE v2.0 // PRIVATE SUITE (ACCESORIOS + CORE SYSTEM)
--- ====================================================================
-
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
@@ -10,14 +6,10 @@ local HttpService = game:GetService("HttpService")
 
 local localPlayer = Players.LocalPlayer
 
--- Evitar duplicación del hilo si re-ejecutás el script
 if CoreGui:FindFirstChild("ZynxBlankEngine") then
     CoreGui.ZynxBlankEngine:Destroy()
 end
 
--- ========================================== --
---   SISTEMA BASE DE ACCESORIOS (LÓGICA)       --
--- ========================================== --
 local ARCHIVO_GUARDADO = "MisAccesoriosForzados.json"
 local ACCESORIOS_IDS = {}
 
@@ -31,7 +23,6 @@ local function cargarAccesorios()
             return
         end
     end
-    -- Valores iniciales por defecto si no hay archivo previo
     ACCESORIOS_IDS = {
         {id = 10159600649, nombre = "Accesorio Ejemplo 1"},
         {id = 139607718, nombre = "Korblox Right Leg"}
@@ -105,19 +96,14 @@ end
 
 cargarAccesorios()
 
--- ========================================== --
---   CONSTRUCCIÓN DE LA INTERFAZ CYBERPUNK     --
--- ========================================== --
-
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "ZynxBlankEngine"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
--- Ventana Base (Main Frame)
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 520, 0, 360) -- Le subí 20px de alto para el panel inferior
+MainFrame.Size = UDim2.new(0, 520, 0, 360)
 MainFrame.Position = UDim2.new(0.5, -260, 0.5, -180)
 MainFrame.BackgroundColor3 = Color3.fromRGB(17, 17, 22)
 MainFrame.BorderSizePixel = 0
@@ -135,7 +121,6 @@ GlowBar.BackgroundColor3 = Color3.fromRGB(0, 180, 255)
 GlowBar.BorderSizePixel = 0
 GlowBar.Parent = MainFrame
 
--- Topbar
 local TopBar = Instance.new("Frame")
 TopBar.Name = "TopBar"
 TopBar.Size = UDim2.new(1, 0, 0, 40)
@@ -147,7 +132,7 @@ Title.Name = "Title"
 Title.Size = UDim2.new(1, -50, 1, 0)
 Title.Position = UDim2.new(0, 15, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "ZYNX ENGINE v2.0 // PRIVATE"
+Title.Text = "ZYNX // V2.0"
 Title.TextColor3 = Color3.fromRGB(0, 180, 255)
 Title.TextSize = 13
 Title.Font = Enum.Font.GothamBold
@@ -165,10 +150,9 @@ CloseBtn.TextSize = 13
 CloseBtn.Font = Enum.Font.GothamBold
 CloseBtn.Parent = TopBar
 
--- Área Contenedora Interna
 local ContentFrame = Instance.new("Frame")
 ContentFrame.Name = "ContentFrame"
-ContentFrame.Size = UDim2.new(1, -30, 1, -100) -- Reducido un toque abajo para alojar los inputs
+ContentFrame.Size = UDim2.new(1, -30, 1, -100)
 ContentFrame.Position = UDim2.new(0, 15, 0, 45)
 ContentFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
 ContentFrame.BorderSizePixel = 0
@@ -178,7 +162,6 @@ local ContentCorner = Instance.new("UICorner")
 ContentCorner.CornerRadius = UDim.new(0, 8)
 ContentCorner.Parent = ContentFrame
 
--- Lista de Scroll Interna (Adaptada al ContentFrame)
 local ScrollFrame = Instance.new("ScrollingFrame")
 ScrollFrame.Size = UDim2.new(1, -16, 1, -16)
 ScrollFrame.Position = UDim2.new(0, 8, 0, 8)
@@ -192,12 +175,9 @@ local Layout = Instance.new("UIListLayout")
 Layout.Padding = UDim.new(0, 6)
 Layout.Parent = ScrollFrame
 
--- ========================================== --
---   INPUTS COMPONENTES (AÑADIR ACCESORIOS)    --
--- ========================================== --
-
+-- Movimos y achicamos la InputBox para que entre el nuevo botón de link
 local InputBox = Instance.new("TextBox")
-InputBox.Size = UDim2.new(0, 340, 0, 36)
+InputBox.Size = UDim2.new(0, 295, 0, 36)
 InputBox.Position = UDim2.new(0, 15, 1, -46)
 InputBox.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
 InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -212,10 +192,26 @@ local InputCorner = Instance.new("UICorner")
 InputCorner.CornerRadius = UDim.new(0, 6)
 InputCorner.Parent = InputBox
 
+-- Botón de Enlace / Discord (Nuevo)
+local LinkBtn = Instance.new("TextButton")
+LinkBtn.Name = "LinkBtn"
+LinkBtn.Size = UDim2.new(0, 40, 0, 36)
+LinkBtn.Position = UDim2.new(0, 320, 1, -46)
+LinkBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+LinkBtn.Text = "🔗" -- Usamos emoji clásico que Roblox lee perfecto
+LinkBtn.Font = Enum.Font.GothamBold
+LinkBtn.TextColor3 = Color3.fromRGB(0, 180, 255)
+LinkBtn.TextSize = 14
+LinkBtn.Parent = MainFrame
+
+local LinkCorner = Instance.new("UICorner")
+LinkCorner.CornerRadius = UDim.new(0, 6)
+LinkCorner.Parent = LinkBtn
+
 local AddBtn = Instance.new("TextButton")
 AddBtn.Size = UDim2.new(0, 135, 0, 36)
 AddBtn.Position = UDim2.new(0, 370, 0, 314)
-AddBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 230) -- Azul Eléctrico a juego
+AddBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 230)
 AddBtn.Text = "Añadir Ítem"
 AddBtn.Font = Enum.Font.GothamBold
 AddBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -225,10 +221,6 @@ AddBtn.Parent = MainFrame
 local AddCorner = Instance.new("UICorner")
 AddCorner.CornerRadius = UDim.new(0, 6)
 AddCorner.Parent = AddBtn
-
--- ========================================== --
---   LÓGICA DEL RENDERIZADO VISUAL            --
--- ========================================== --
 
 local function actualizarListaVisual()
     for _, item in ipairs(ScrollFrame:GetChildren()) do
@@ -278,17 +270,16 @@ local function actualizarListaVisual()
         BorrarBtn.Size = UDim2.new(0, 32, 0, 24)
         BorrarBtn.Position = UDim2.new(1, -40, 0, 5)
         BorrarBtn.BackgroundColor3 = Color3.fromRGB(40, 30, 35)
-        BorrarBtn.Text = "-" -- Cambiado de "✕" a "x" minúscula para evitar el cuadrado
+        BorrarBtn.Text = "x" 
         BorrarBtn.Font = Enum.Font.GothamBold
         BorrarBtn.TextColor3 = Color3.fromRGB(255, 80, 80)
-        BorrarBtn.TextSize = 11 -- Bajamos a 11 para que quede bien fina y estética
+        BorrarBtn.TextSize = 11 
         BorrarBtn.Parent = Fila
         
         local BorrarCorner = Instance.new("UICorner")
         BorrarCorner.CornerRadius = UDim.new(0, 4)
         BorrarCorner.Parent = BorrarBtn
         
-        -- Hover de borrar
         BorrarBtn.MouseEnter:Connect(function()
             TweenService:Create(BorrarBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(180, 40, 40), TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
         end)
@@ -312,7 +303,6 @@ local function actualizarListaVisual()
     ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y)
 end
 
--- Funcionalidad del Botón Añadir Ítem
 AddBtn.MouseButton1Click:Connect(function()
     local text = InputBox.Text:gsub("%s+", "")
     local id = tonumber(text)
@@ -330,12 +320,34 @@ AddBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Hover interactivo de Añadir Ítem
 AddBtn.MouseEnter:Connect(function()
     TweenService:Create(AddBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 160, 255)}):Play()
 end)
 AddBtn.MouseLeave:Connect(function()
     TweenService:Create(AddBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 130, 230)}):Play()
+end)
+
+-- Acción del Botón de Link (Copia al portapapeles)
+LinkBtn.MouseButton1Click:Connect(function()
+    local miEnlace = "https://www.tiktok.com/@tizi8776" -- CAMBIÁ ESTO por tu link real
+    
+    if setclipboard then
+        setclipboard(miEnlace)
+        LinkBtn.Text = "✅"
+        task.wait(1.5)
+        LinkBtn.Text = "🔗"
+    else
+        LinkBtn.Text = "❌"
+        task.wait(1.5)
+        LinkBtn.Text = "🔗"
+    end
+end)
+
+LinkBtn.MouseEnter:Connect(function()
+    TweenService:Create(LinkBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(40, 40, 55)}):Play()
+end)
+LinkBtn.MouseLeave:Connect(function()
+    TweenService:Create(LinkBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(30, 30, 40)}):Play()
 end)
 
 local function aplicarTodo()
@@ -353,10 +365,6 @@ end)
 
 actualizarListaVisual()
 aplicarTodo()
-
--- ========================================== --
---   CONTROLES GLOBALES (DRAG & CONTROLES)     --
--- ========================================== --
 
 local dragging, dragInput, dragStart, startPos
 local function update(input)
@@ -403,7 +411,6 @@ CloseBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
--- Sistema de ocultado con la tecla CTRL Izquierdo
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end 
     
