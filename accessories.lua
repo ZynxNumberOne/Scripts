@@ -1,4 +1,3 @@
-
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
@@ -176,7 +175,6 @@ local Layout = Instance.new("UIListLayout")
 Layout.Padding = UDim.new(0, 6)
 Layout.Parent = ScrollFrame
 
--- Movimos y achicamos la InputBox para que entre el nuevo botón de link
 local InputBox = Instance.new("TextBox")
 InputBox.Size = UDim2.new(0, 295, 0, 36)
 InputBox.Position = UDim2.new(0, 15, 1, -46)
@@ -193,13 +191,12 @@ local InputCorner = Instance.new("UICorner")
 InputCorner.CornerRadius = UDim.new(0, 6)
 InputCorner.Parent = InputBox
 
--- Botón de Enlace / Discord (Nuevo)
 local LinkBtn = Instance.new("TextButton")
 LinkBtn.Name = "LinkBtn"
 LinkBtn.Size = UDim2.new(0, 40, 0, 36)
 LinkBtn.Position = UDim2.new(0, 320, 1, -46)
 LinkBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-LinkBtn.Text = "🔗" -- Usamos emoji clásico que Roblox lee perfecto
+LinkBtn.Text = "🔗" 
 LinkBtn.Font = Enum.Font.GothamBold
 LinkBtn.TextColor3 = Color3.fromRGB(0, 180, 255)
 LinkBtn.TextSize = 14
@@ -288,6 +285,7 @@ local function actualizarListaVisual()
             TweenService:Create(BorrarBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(40, 30, 35), TextColor3 = Color3.fromRGB(255, 80, 80)}):Play()
         end)
         
+        -- Evento corregido para borrar accesorios individuales
         BorrarBtn.MouseButton1Click:Connect(function()
             local char = localPlayer.Character
             if char then
@@ -328,11 +326,23 @@ AddBtn.MouseLeave:Connect(function()
     TweenService:Create(AddBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 130, 230)}):Play()
 end)
 
--- Acción del Botón de Link (Copia al portapapeles)
+-- ÚNICO EVENTO DE LINK ORGANIZADO (Soporta redirección Delta directa + Copiado de respaldo)
 LinkBtn.MouseButton1Click:Connect(function()
-    local miEnlace = "https://www.tiktok.com/@tizi8776" -- CAMBIÁ ESTO por tu link real
+    local miEnlace = "https://www.tiktok.com/@tizi8776"
     
-    if setclipboard then
+    local requestFunc = syn and syn.request or http_request or request
+    
+    if requestFunc then
+        pcall(function()
+            requestFunc({
+                Url = miEnlace,
+                Method = "GET"
+            })
+        end)
+        LinkBtn.Text = "🚀"
+        task.wait(1.5)
+        LinkBtn.Text = "🔗"
+    elseif setclipboard then
         setclipboard(miEnlace)
         LinkBtn.Text = "✅"
         task.wait(1.5)
@@ -344,34 +354,11 @@ LinkBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Acción del Botón de Link (Abre directo en el navegador tipo Delta)
-LinkBtn.MouseButton1Click:Connect(function()
-    local miEnlace = "https://www.tiktok.com/@tizi8776" -- CAMBIÁ ESTO por tu link real
-    
-    -- Detectamos si el executor tiene la función para abrir links externos
-    local requestFunc = syn and syn.request or http_request or request
-    
-    if requestFunc then
-        pcall(function()
-            requestFunc({
-                Url = miEnlace,
-                Method = "GET"
-            })
-        end)
-        LinkBtn.Text = "🚀" -- Icono de que ya se mandó al navegador
-        task.wait(1.5)
-        LinkBtn.Text = "🔗"
-    elseif setclipboard then
-        -- Plan B: Si el executor es viejo o no lo soporta, lo copia
-        setclipboard(miEnlace)
-        LinkBtn.Text = "✅"
-        task.wait(1.5)
-        LinkBtn.Text = "🔗"
-    else
-        LinkBtn.Text = "❌"
-        task.wait(1.5)
-        LinkBtn.Text = "🔗"
-    end
+LinkBtn.MouseEnter:Connect(function()
+    TweenService:Create(LinkBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(40, 40, 55)}):Play()
+end)
+LinkBtn.MouseLeave:Connect(function()
+    TweenService:Create(LinkBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(30, 30, 40)}):Play()
 end)
 
 local function aplicarTodo()
