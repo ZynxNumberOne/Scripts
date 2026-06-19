@@ -1,3 +1,4 @@
+
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
@@ -329,7 +330,7 @@ end)
 
 -- Acción del Botón de Link (Copia al portapapeles)
 LinkBtn.MouseButton1Click:Connect(function()
-    local miEnlace = "https://discord.gg/tu-invitacion" -- CAMBIÁ ESTO por tu link real
+    local miEnlace = "https://www.tiktok.com/@tizi8776" -- CAMBIÁ ESTO por tu link real
     
     if setclipboard then
         setclipboard(miEnlace)
